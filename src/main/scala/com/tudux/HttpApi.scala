@@ -1,7 +1,7 @@
 package com.tudux
 
 import java.util.concurrent.TimeUnit
-import akka.actor.{Actor, ActorLogging, Props}
+import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
@@ -98,10 +98,10 @@ object HttpApi extends SprayJsonSupport {
 
   def routes: Route = login ~ authenticatedRoute
 
-  def apply(host: String, port: Int) = Props(new HttpApi(host, port))
+  def apply(host: String, port: Int, authActor: ActorRef) = Props(new HttpApi(host, port, authActor))
 }
 
-final class HttpApi(host: String, port: Int) extends Actor with ActorLogging {
+final class HttpApi(host: String, port: Int, authActor: ActorRef) extends Actor with ActorLogging {
   import HttpApi._
   import context.dispatcher
 

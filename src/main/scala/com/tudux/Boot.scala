@@ -8,6 +8,6 @@ object Boot {
     implicit val system       = ActorSystem()
     implicit val materializer = ActorMaterializer()
 
-    system.actorOf(HttpApi.apply("localhost", 8000), HttpApi.Name)
+    system.actorOf(HttpApi.apply("localhost", 8000, null), HttpApi.Name)
   }
 }
