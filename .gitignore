@@ -34,5 +34,8 @@ snapshots
 # Log files
 *.log
 
-
+#intelliJ bug
 null/
+
+#credentials
+admin.credentials

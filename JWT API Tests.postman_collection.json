@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "b53ea674-b68f-4dd1-a7c8-83981aa66697",
+		"name": "JWT API Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RequestToken",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"admin\", \"password\": \"admin\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AccessSecureContent",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGcssdaiOiJIUzI1NiJ9.eyJpc3MiOiJyb2NrdGhlanZtLmNvbSIsImV4cCI6MTY3MDEwNTM0MSwiaWF0IjoxNjcwMDE4OTQxfQ.X5p4VGno0tOmqQejMQK7xfa0iAP9HbIfKWV9NVCNwh0",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/secureEndpoint",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"secureEndpoint"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
