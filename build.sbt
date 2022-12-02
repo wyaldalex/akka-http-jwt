@@ -2,11 +2,11 @@ name := "akka-http"
 
 version := "0.1"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.12.12"
 
-val akkaVersion = "2.5.20"
-val akkaHttpVersion = "10.1.7"
-val scalaTestVersion = "3.0.5"
+val akkaVersion = "2.6.9"
+val akkaHttpVersion = "10.2.8"
+val scalaTestVersion = "3.2.14"
 val postgresVersion = "42.2.2"
 
 libraryDependencies ++= Seq(
@@ -29,5 +29,6 @@ libraryDependencies ++= Seq(
 // JDBC with PostgreSQL
 "org.postgresql" % "postgresql" % postgresVersion,
 "com.github.dnvriend" %% "akka-persistence-jdbc" % "3.4.0",
+ "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion
 
 )

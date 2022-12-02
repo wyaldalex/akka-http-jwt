@@ -3,7 +3,7 @@ version: '2'
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: postgresjwt
     environment:
       - "TZ=CST"
       - "POSTGRES_USER=docker"
