@@ -2,8 +2,10 @@ package com.tudux.actors
 
 import akka.actor.{ActorLogging, Props}
 import akka.persistence.PersistentActor
+import com.tudux.actors.AuthenticationActor.{encryptPassword, validatePassword}
 
 import scala.util.{Failure, Success}
+import org.mindrot.jbcrypt.BCrypt
 
 sealed trait AuthRole
 object AuthRoles {
@@ -32,6 +34,15 @@ object AuthActorResponse {
 
 //TODO: Password Encryption
 object AuthenticationActor {
+
+  def encryptPassword(password: String): String = {
+    BCrypt.hashpw(password, BCrypt.gensalt(12))
+  }
+
+  def validatePassword(password: String, hash: String): Boolean = {
+    BCrypt.checkpw(password, hash)
+  }
+
   def props: Props = Props(new AuthenticationActor)
 }
 
@@ -50,8 +61,9 @@ class AuthenticationActor extends PersistentActor with ActorLogging {
     case CreateSuperUser(user) =>
       if(!state.contains(user.user)) {
         log.info(s"Received CreateSuperUser $user")
-        persist(UserCreatedEvent(user)) { e =>
-          state = state + (user.user -> user)
+        val encryptedPassword = encryptPassword(user.password)
+        persist(UserCreatedEvent(user.copy(password = encryptedPassword))) { e =>
+          state = state + (user.user -> user.copy(password = encryptedPassword))
           log.info(s"Modified State + $state")
         }
       } else {
@@ -59,7 +71,10 @@ class AuthenticationActor extends PersistentActor with ActorLogging {
       }
     case ValidateUser(user,password) =>
       log.info("Validating user")
-      if(state.contains(user) && state(user).password == password) sender() ! Right("Authorized")
+      if(state.contains(user)) {
+        if (validatePassword(password,state(user).password)) sender() ! Right("Authorized")
+        else  sender() ! Left("Unauthorized")
+      }
       else sender() ! Left("Unauthorized")
   }
 

@@ -29,6 +29,9 @@ libraryDependencies ++= Seq(
 // JDBC with PostgreSQL
 "org.postgresql" % "postgresql" % postgresVersion,
 "com.github.dnvriend" %% "akka-persistence-jdbc" % "3.4.0",
- "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion
+ "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
+
+  // Encryption
+  "org.mindrot" % "jbcrypt" % "0.4"
 
 )
