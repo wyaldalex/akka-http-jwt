@@ -1,9 +1,10 @@
 # JWT AKKA HTTP with PostgreSQL Testing App
 
 ## To run:
-$ create credentials admin.credentials under resources with:   
-user: <your-admin-user>  
-password: <your-admin-password>  
+$ create credentials file admin.credentials under resources with property format like:   
+user=<your-admin-user>  
+password=<your-admin-password>  
+secretKey=<your-secret>
 
 $ docker-compose up 
 

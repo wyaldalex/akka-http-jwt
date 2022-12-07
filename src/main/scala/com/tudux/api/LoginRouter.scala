@@ -13,7 +13,7 @@ import com.tudux.actors.AuthActorCommand.ValidateUser
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
-case class LoginRouter(authActor: ActorRef)(implicit system: ActorSystem, dispatcher: ExecutionContext,timeout: Timeout )  extends SprayJsonSupport {
+case class LoginRouter(authActor: ActorRef, secretKey: String)(implicit system: ActorSystem, dispatcher: ExecutionContext,timeout: Timeout )  extends SprayJsonSupport {
 
   //final case class LoginRequest(username: String, password: String)
   import com.tudux.api.auth.Authorization._
@@ -27,7 +27,7 @@ case class LoginRouter(authActor: ActorRef)(implicit system: ActorSystem, dispat
     entity(as[LoginRequest]) { request =>
       onSuccess(checkPassword(request.username,request.password)) {
         case Right(_) =>
-          val token = createToken(request.username, 1)
+          val token = createToken(request.username, 1,secretKey)
           respondWithHeader(RawHeader("Access-Token", token)) {
             complete(StatusCodes.OK)
           }

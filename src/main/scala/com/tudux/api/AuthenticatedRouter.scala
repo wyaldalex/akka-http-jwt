@@ -5,7 +5,7 @@ import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 
-case class AuthenticatedRouter() extends SprayJsonSupport {
+case class AuthenticatedRouter(secretKey: String) extends SprayJsonSupport {
 
   //final case class LoginRequest(username: String, password: String)
   import com.tudux.api.auth.Authorization._
@@ -14,8 +14,8 @@ case class AuthenticatedRouter() extends SprayJsonSupport {
     (path("secureEndpoint") & get) {
       optionalHeaderValueByName("Authorization") {
         case Some(token) =>
-          if (isTokenValid(token)) {
-            if (isTokenExpired(token)) {
+          if (isTokenValid(token,secretKey)) {
+            if (isTokenExpired(token,secretKey)) {
               complete(HttpResponse(status = StatusCodes.Unauthorized, entity = "Token expired."))
             } else {
               complete("User accessed authorized endpoint!")

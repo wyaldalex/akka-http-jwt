@@ -32,6 +32,9 @@ libraryDependencies ++= Seq(
  "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
 
   // Encryption
-  "org.mindrot" % "jbcrypt" % "0.4"
+  "org.mindrot" % "jbcrypt" % "0.4",
+
+  //cats effect for file reading
+  "org.typelevel" %% "cats-effect" % "3.3.13"
 
 )

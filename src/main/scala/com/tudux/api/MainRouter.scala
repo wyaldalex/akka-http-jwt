@@ -8,13 +8,13 @@ import akka.util.Timeout
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
 
-class MainRouter(authActor: ActorRef)(implicit system: ActorSystem) {
+class MainRouter(authActor: ActorRef, secretKey: String)(implicit system: ActorSystem) {
 
   implicit val dispatcher: ExecutionContext = system.dispatcher
   implicit val timeout: Timeout = Timeout(30.seconds)
 
-  val authRoutes = LoginRouter(authActor).routes
-  val authenticatedRoutes = AuthenticatedRouter().routes
+  val authRoutes = LoginRouter(authActor,secretKey).routes
+  val authenticatedRoutes = AuthenticatedRouter(secretKey).routes
 
   val routes: Route = {
     authRoutes ~
